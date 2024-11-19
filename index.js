@@ -14,7 +14,7 @@ const port = process.env.PORT || 5001;
 // MIDDLEWARES
 app.use(express.json());
 app.use(cors({
-    origin:[],
+    origin:['https://one-time-password-omega.vercel.app'],
     methods:['POST','OPTIONS']
 }));
 

@@ -14,7 +14,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setstate(isLoading);
-    await fetch("http://localhost:5001/send-otp", {
+    await fetch("https://one-time-password-omega.vercel.app/send-otp", {
       method: "POST",
       headers: {
         "content-type": "application/json",
