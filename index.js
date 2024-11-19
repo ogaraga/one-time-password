@@ -7,22 +7,24 @@ import cors from 'cors';
 import validate from 'validator';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
-const port = 5001;
 const app = express();
-
-
 dotenv.config();
+const port = process.env.PORT || 5001;
+
+// MIDDLEWARES
 app.use(express.json());
 app.use(cors({
     origin:[],
     methods:['POST','OPTIONS']
 }));
 
-
+// DATABASE CONNECTION
 mongoose.connect(process.env.DB_URI).then(() => console.log('db connected!')).catch(() => console.log('db disconnected!'))
 app.get('/', (req, res) => {
     res.send('Home!')
 })
+
+//REGISTER API ROUTES
 app.post('/send-otp', async (req, res) => {
     try {
         const { email, name, phone, activated, password } = req.body;
@@ -124,10 +126,9 @@ app.post('/send-otp', async (req, res) => {
         res.status(500).json(error.message);
     }
 });
-app.post('/resend-otp', async (req, res) => {
-    
-})
 
+
+// ACCOUNT ACTIVATE API ROUTES
 app.post('/activateAccount', async (req, res) => {
     try {
         const { otpassword } = req.body;
@@ -144,6 +145,8 @@ app.post('/activateAccount', async (req, res) => {
         res.status(500).json(error.message);
     }
 }); 
+
+// LOGIN ROUTES
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -159,5 +162,10 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         res.status(500).json(error.message);
     }
-})
+});
+
+// home routes api
+app.get('/', (req, res)=>{
+    res.send('This is home route!')
+});
 app.listen(port, () => console.log(`server started on port ${port}`))
